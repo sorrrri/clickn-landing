@@ -19,6 +19,7 @@ const PATH = {
     FONTS: "./src/assets/fonts",
     STYLE: "./src/assets/scss",
     IMAGES: "./src/assets/images",
+    VIDEO: "./src/assets/video",
     SCRIPT: "./src/assets/js",
     LIB: "./src/assets/lib",
   },
@@ -30,6 +31,7 @@ const DEST_PATH = {
     FONTS: "./dist/assets/fonts",
     STYLE: "./dist/assets/css",
     IMAGES: "./dist/assets/images",
+    VIDEO: "./dist/assets/video",
     SCRIPT: "./dist/assets/js",
     LIB: "./dist/assets/lib",
   },
@@ -50,6 +52,14 @@ gulp.task("images", () => {
     .pipe(browserSync.reload({stream: true}));
 });
 
+gulp.task("video", () => {
+  return gulp
+    .src(PATH.ASSETS.VIDEO + "/**/*.*")
+    .pipe(imagemin())
+    .pipe(gulp.dest(DEST_PATH.ASSETS.VIDEO))
+    .pipe(browserSync.reload({stream: true}));
+});
+
 gulp.task("favicon", () => {
   return gulp
     .src("src/assets/favicon" + "/**/*.*")
@@ -67,7 +77,7 @@ gulp.task("scss", () => {
   };
 
   return gulp
-    .src(["src/assets/scss/common.scss", "src/assets/scss/style.scss", "src/assets/scss/responsive.scss"])
+    .src("src/assets/scss" + "/**/*.*")
     .pipe(sourcemaps.init())
     .pipe(sass({outputStyle: "compressed"}).on("error", sass.logError))
     .pipe(autoprefixer({cascade: false}))
@@ -152,6 +162,7 @@ const series = gulp.series([
   "favicon",
   "library",
   "images",
+  "video",
   "scss",
   "fonts",
   "script",
